@@ -212,7 +212,7 @@ public class RS485Function implements RS485ConnectListent {
      * 获取设备版本号
      */
     private void send_getversion(){
-        sendModbusModel_R(0x01,2, 1);
+        sendModbusModel_R(0x01,101, 1);
     }
     /**
      * 数据写打包发送

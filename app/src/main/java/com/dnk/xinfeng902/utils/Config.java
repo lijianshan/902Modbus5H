@@ -2,7 +2,7 @@ package com.dnk.xinfeng902.utils;
 
 public class Config {
 
-    public static final String version =  "1.1.2";
+    public static final String version =  "1.1.3";
 
 
     public static final int NOTHING = 0xFFFF;
