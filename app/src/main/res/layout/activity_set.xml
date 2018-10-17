@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.dnk.xinfeng902.utils.percentFrame.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2b343e"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp"
+        android:layout_marginTop="@dimen/fifty_dp"
+        android:src="@mipmap/icon" />
+
+    <TextView
+        android:id="@+id/about_versionname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/twenty_dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_five_dp"
+        android:background="@color/list_divider" />
+
+
+    <RelativeLayout
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/zero_dp"
+        android:paddingLeft="@dimen/five_dp"
+        android:paddingRight="@dimen/five_dp"
+        app:layout_heightPercent="10%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@mipmap/contact_phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/thirty_five_dp"
+            android:text="@string/contatc_us_phone"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_call_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:text="@string/contatc_us_phone_text"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/zero_five_dp"
+        android:background="@color/list_divider" />
+
+    <RelativeLayout
+        android:id="@+id/web"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/zero_dp"
+        android:paddingLeft="@dimen/five_dp"
+        android:paddingRight="@dimen/five_dp"
+        app:layout_heightPercent="10%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@mipmap/contact_website" />
+
+        <TextView
+            android:id="@+id/website_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/thirty_five_dp"
+            android:text="@string/contatc_us_web"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_toRightOf="@+id/website_desc"
+            android:gravity="right"
+            android:text="@string/contatc_us_web_text"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_five_dp"
+        android:background="@color/list_divider" />
+
+    <RelativeLayout
+        android:id="@+id/web1"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/zero_dp"
+        android:paddingLeft="@dimen/five_dp"
+        android:paddingRight="@dimen/five_dp"
+        app:layout_heightPercent="10%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@mipmap/contact_address" />
+
+        <TextView
+            android:id="@+id/address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/thirty_five_dp"
+            android:text="@string/contatc_us_address"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_toRightOf="@id/address_tv"
+            android:gravity="right"
+            android:text="@string/contatc_us_address_text"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_five_dp"
+        android:background="@color/list_divider" />
+
+    <RelativeLayout
+        android:id="@+id/add_rel"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/zero_dp"
+        android:paddingLeft="@dimen/five_dp"
+        android:paddingRight="@dimen/five_dp"
+        app:layout_heightPercent="10%">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:background="@mipmap/icon_add_device"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/add_device_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:lineSpacingExtra="16sp"
+            android:text="@string/device_version"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/device_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/ten_dp"
+            android:layout_marginRight="@dimen/thirty_dp"
+            android:layout_toRightOf="@id/add_device_tv"
+            android:gravity="right"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="@dimen/fifteen_sp" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/zero_five_dp"
+        android:background="@color/list_divider" />
+</com.dnk.xinfeng902.utils.percentFrame.PercentLinearLayout>

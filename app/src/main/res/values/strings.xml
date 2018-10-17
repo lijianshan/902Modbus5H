@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">享佳净</string>
+
+    <string name="contatc_us_phone">客服电话</string>
+    <string name="contatc_us_phone_text">400-0670168</string>
+    <string name="contatc_us_web">官网</string>
+    <string name="contatc_us_web_text">http://www.dnake-ehs.com</string>
+    <string name="contatc_us_address">联系地址</string>
+    <string name="contatc_us_address_text">厦门市火炬高新区火炬园创新路2号</string>
+
+    <string name="smart_power_text">智能开关</string>
+    <string name="time_set_text">定时设置</string>
+    <string name="xinfeng_recycle_mode">循环模式</string>
+    <string name="device_offline_text">设备离线</string>
+    <string name="token_invalid_error_msg">token失效，请重新登录!</string>
+    <string name="add_device">添加设备</string>
+    <string name="device_version">设备版本号</string>
+    <string name="title_activity_test">Test</string>
+    <string name="title_activity_set">SetActivity</string>
+</resources>

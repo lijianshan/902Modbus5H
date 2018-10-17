@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/main_bottom">
+
+    <TextView
+        android:id="@+id/air_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="2dp"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="70sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/air_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="空气质量"
+        app:layout_constraintEnd_toEndOf="@+id/air_value"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/air_value"
+        app:layout_constraintTop_toBottomOf="@+id/air_value" />
+
+    <TextView
+        android:id="@+id/pm25_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PM2.5"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/pm25_image"
+        app:layout_constraintStart_toStartOf="@+id/pm25_image"
+        app:layout_constraintTop_toTopOf="@+id/co2_title" />
+
+    <TextView
+        android:id="@+id/pm25_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/pm25_title"
+        app:layout_constraintStart_toStartOf="@+id/pm25_title"
+        app:layout_constraintTop_toBottomOf="@+id/pm25_title" />
+
+    <ImageView
+        android:id="@+id/pm25_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/airgrade_nothing"
+        app:layout_constraintEnd_toEndOf="@+id/guideline11"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toTopOf="@+id/co2_image" />
+
+    <TextView
+        android:id="@+id/co2_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CO2"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/co2_image"
+        app:layout_constraintStart_toStartOf="@+id/co2_image"
+        app:layout_constraintTop_toTopOf="@+id/tvoc_title" />
+
+    <TextView
+        android:id="@+id/co2_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/co2_title"
+        app:layout_constraintStart_toStartOf="@+id/co2_title"
+        app:layout_constraintTop_toTopOf="@+id/pm25_value" />
+
+    <ImageView
+        android:id="@+id/co2_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/airgrade_nothing"
+        app:layout_constraintEnd_toEndOf="@+id/guideline4"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toTopOf="@+id/tvoc_image" />
+
+    <TextView
+        android:id="@+id/tvoc_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="VOC"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/tvoc_image"
+        app:layout_constraintStart_toStartOf="@+id/tvoc_image"
+        app:layout_constraintTop_toTopOf="@+id/temp_title" />
+
+    <TextView
+        android:id="@+id/tvoc_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvoc_title"
+        app:layout_constraintStart_toStartOf="@+id/tvoc_title"
+        app:layout_constraintTop_toTopOf="@+id/co2_value" />
+
+    <ImageView
+        android:id="@+id/tvoc_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/airgrade_nothing"
+        app:layout_constraintEnd_toEndOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/temp_image" />
+
+    <TextView
+        android:id="@+id/temp_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="温度"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/temp_image"
+        app:layout_constraintStart_toStartOf="@+id/temp_image"
+        app:layout_constraintTop_toTopOf="@+id/humidity_title" />
+
+    <TextView
+        android:id="@+id/temp_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/temp_title"
+        app:layout_constraintStart_toStartOf="@+id/temp_title"
+        app:layout_constraintTop_toTopOf="@+id/tvoc_value" />
+
+    <ImageView
+        android:id="@+id/temp_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/airgrade_nothing"
+        app:layout_constraintEnd_toEndOf="@+id/guideline8"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/humidity_image" />
+
+    <TextView
+        android:id="@+id/humidity_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="湿度"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/humidity_image"
+        app:layout_constraintStart_toStartOf="@+id/humidity_image"
+        app:layout_constraintTop_toBottomOf="@+id/humidity_image" />
+
+    <TextView
+        android:id="@+id/humidity_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/humidity_title"
+        app:layout_constraintStart_toStartOf="@+id/humidity_title"
+        app:layout_constraintTop_toTopOf="@+id/temp_value" />
+
+    <ImageView
+        android:id="@+id/humidity_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/airgrade_nothing"
+        app:layout_constraintEnd_toEndOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="@+id/guideline12"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/list"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onOterViewClk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/list_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/set"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="15dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onOterViewClk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/set_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list" />
+
+    <ImageButton
+        android:id="@+id/mode_powerful"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/mode_powerful_up"
+        app:layout_constraintEnd_toEndOf="@+id/auheat"
+        app:layout_constraintStart_toStartOf="@+id/auheat"
+        app:layout_constraintTop_toBottomOf="@+id/guideline6" />
+
+    <ImageButton
+        android:id="@+id/power_open"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="100dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/kai_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="@+id/mode_hand"
+        app:layout_constraintEnd_toStartOf="@+id/guideline11"
+        app:layout_constraintStart_toStartOf="@+id/mode_hand" />
+
+    <ImageButton
+        android:id="@+id/power_close"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="100dp"
+        android:background="#00000000"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/guan_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="@+id/mode_powerful"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/mode_powerful" />
+
+    <ImageButton
+        android:id="@+id/mode_hand"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/mode_hand_up"
+        app:layout_constraintEnd_toEndOf="@+id/circulation_in"
+        app:layout_constraintStart_toStartOf="@+id/circulation_in"
+        app:layout_constraintTop_toBottomOf="@+id/guideline6" />
+
+    <ImageButton
+        android:id="@+id/mode_smart"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/mode_smart_up"
+        app:layout_constraintEnd_toEndOf="@+id/circulation_out"
+        app:layout_constraintStart_toStartOf="@+id/circulation_out"
+        app:layout_constraintTop_toBottomOf="@+id/guideline6" />
+
+    <TextView
+        android:id="@+id/temp_set_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="—"
+        android:textColor="@android:color/background_light"
+        android:textSize="90sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/temp_set_add"
+        app:layout_constraintEnd_toEndOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="@+id/guideline12"
+        app:layout_constraintTop_toTopOf="@+id/temp_set_add" />
+
+    <ImageButton
+        android:id="@+id/temp_set_add"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/temp_add_up"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_refrigera"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_refrigera"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/temp_set_minus"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/temp_minus_up"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline6"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_ventilation"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_ventilation"
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+
+    <ImageButton
+        android:id="@+id/circulation_in"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Air_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/circulation_in_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="@+id/fanspeed_low"
+        app:layout_constraintStart_toStartOf="@+id/fanspeed_low" />
+
+    <ImageButton
+        android:id="@+id/circulation_out"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Air_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/circulation_out_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="@+id/fanspeed_middle"
+        app:layout_constraintStart_toStartOf="@+id/fanspeed_middle" />
+
+    <ImageButton
+        android:id="@+id/auheat"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Air_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/auheat_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="@+id/fanspeed_heigth"
+        app:layout_constraintStart_toStartOf="@+id/fanspeed_heigth" />
+
+    <ImageButton
+        android:id="@+id/fanspeed_low"
+        android:layout_width="61dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Air_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/fanspeed_low_up"
+        app:layout_constraintEnd_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+
+    <ImageButton
+        android:id="@+id/fanspeed_middle"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Air_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/fanspeed_middle_up"
+        app:layout_constraintEnd_toEndOf="@+id/guideline11"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+
+    <ImageButton
+        android:id="@+id/fanspeed_heigth"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Air_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/fanspeed_heigth_up"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+
+    <ImageButton
+        android:id="@+id/cool_mode_refrigera"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_mode_refrigera_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="@+id/cool_speed_low"
+        app:layout_constraintStart_toStartOf="@+id/cool_speed_low" />
+
+    <ImageButton
+        android:id="@+id/cool_mode_heat"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_mode_heat_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="@+id/guideline12"
+        app:layout_constraintStart_toStartOf="@+id/guideline12" />
+
+    <ImageButton
+        android:id="@+id/cool_mode_ventilation"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_mode_ventilation_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toEndOf="@+id/cool_speed_heigth"
+        app:layout_constraintStart_toStartOf="@+id/cool_speed_heigth" />
+
+    <ImageButton
+        android:id="@+id/cool_speed_low"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_speed_low_up"
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+
+    <ImageButton
+        android:id="@+id/cool_speed_middle"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_speed_middle_up"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_heat"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_heat"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+
+    <ImageButton
+        android:id="@+id/cool_speed_heigth"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_speed_heigth_up"
+        app:layout_constraintStart_toStartOf="@+id/guideline12"
+        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.39" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.63" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.76" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.28" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.43" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.61" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.28" />
+
+</android.support.constraint.ConstraintLayout>
