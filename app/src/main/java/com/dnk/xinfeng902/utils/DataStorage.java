@@ -12,6 +12,7 @@ public class DataStorage extends Activity {
         SharedPreferences.Editor editor1 = context.getSharedPreferences("SharedPreferences_control", MODE_PRIVATE).edit();
         editor1.putBoolean("powerswitch", DevStateValue.powerswitch);
         editor1.putInt("mode",DevStateValue.mode);
+        editor1.putBoolean("fanpower",DevStateValue.fanpower);
         editor1.putInt("runloop",DevStateValue.runloop);
         editor1.putBoolean("heat", DevStateValue.heat);
         editor1.putInt("fanspeed",DevStateValue.fanspeed);
@@ -31,10 +32,11 @@ public class DataStorage extends Activity {
         SharedPreferences sprread = context.getSharedPreferences("SharedPreferences_control", MODE_PRIVATE);
         DevStateValue.powerswitch = sprread.getBoolean("powerswitch",false);
         DevStateValue.mode =sprread.getInt("mode",Config.MODE_HAND);
+        DevStateValue.fanpower =sprread.getBoolean("fanpower",false);
         DevStateValue.runloop =sprread.getInt("runloop",1);
         DevStateValue.heat = sprread.getBoolean("heat",false);
         DevStateValue.fanspeed =sprread.getInt("fanspeed",1);
-        DevStateValue.cool_mode =sprread.getInt("cool_mode",1);
+        DevStateValue.cool_mode =sprread.getInt("cool_mode",Config.COOL_MODE_AUTO);
         DevStateValue.cool_speed =sprread.getInt("cool_speed",1);
 
         DevStateValue.set_temp_hand =sprread.getInt("set_temp_hand",26);

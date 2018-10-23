@@ -51,7 +51,10 @@ public class Tools {
                 }
             }
         }
-        return CRC;
+//        01-02 01:09:18.840 E/测试===: 传感器10
+//        01-02 01:09:18.840 I/485 发送 数据：: 21030033000767f3
+//        01-02 01:09:18.890 I/485 接收 数据：: 21030e004501c20000a55a071c003501020a7e
+        return ((CRC&0x00ff)<<8)|(CRC>>8);
     }
     /**
      * toast显示  避免重复
@@ -95,4 +98,24 @@ public class Tools {
         return String.format("%02d", h).concat(":").concat(String.format("%02d", m));
     }
 
+    /**
+     * 温度float转为2个字节数组格式
+     * Math.ceil() -- 返回大于等于数字参数的最小整数(取整函数)，对数字进行上舍入
+       Math.floor() -- 返回小于等于数字参数的最大整数，对数字进行下舍入
+       Math.round() -- 返回数字最接近的整数，四舍五入
+     */
+    public static byte[] tempFloat2Int(float temp){
+
+        byte[] data = new byte[2];
+
+        if(temp<0){
+            data[0] =0x10;
+            temp *=-1;
+        }
+        temp =(float) (Math.floor(temp * 10)/10.0);
+        int zhengshu = (int)temp;
+        data[1] =(byte)zhengshu;
+        data[0] |=(byte) (Math.round((temp -zhengshu)*10));
+        return data;
+    }
 }

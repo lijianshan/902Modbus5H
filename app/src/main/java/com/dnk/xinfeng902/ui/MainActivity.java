@@ -41,12 +41,6 @@ public class MainActivity extends Activity {
     //485通信相关
     private RS485Function rS485Function;
 
-    //智能模式和强劲模式时频繁变化的，为了省资源，只有变化时才更新UI
-    private static int modeRun_runloop_last=0xff;
-    private static int modeRun_fanspeed_last=0xff;
-    private static int modeRun_coolmode_last=0xff;
-    private static int modeRun_coolspeed_last=0xff;
-
     TextView sensor_air_value;
     TextView sensor_pm25_value;
     TextView sensor_co2_value;
@@ -66,18 +60,19 @@ public class MainActivity extends Activity {
     ImageButton mode_hand;
     ImageButton mode_smart;
     ImageButton mode_powerful;
-    ImageButton circulation_in;
-    ImageButton fanspeed_heigth;
-    ImageButton circulation_out;
+    ImageButton fan_power;
+
     ImageButton auheat;
     ImageButton fanspeed_low;
     ImageButton fanspeed_middle;
+    ImageButton fanspeed_heigth;
     ImageButton cool_mode_refrigera;
     ImageButton cool_mode_heat;
     ImageButton cool_mode_ventilation;
-    ImageButton cool_speed_low;
-    ImageButton cool_speed_middle;
-    ImageButton cool_speed_heigth;
+    ImageButton cool_mode_dehumidif;
+    ImageButton cool_speed_minus;
+    ImageButton cool_speed_add;
+    TextView    cool_speed_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +104,7 @@ public class MainActivity extends Activity {
 
         set_temp = findViewById(R.id.temp_set_value);
 
-        circulation_in = findViewById(R.id.circulation_in);
-        circulation_out = findViewById(R.id.circulation_out);
+        fan_power =findViewById(R.id.fan_power);
         auheat = findViewById(R.id.auheat);
         fanspeed_low = findViewById(R.id.fanspeed_low);
         fanspeed_middle = findViewById(R.id.fanspeed_middle);
@@ -119,9 +113,10 @@ public class MainActivity extends Activity {
         cool_mode_refrigera = findViewById(R.id.cool_mode_refrigera);
         cool_mode_heat = findViewById(R.id.cool_mode_heat);
         cool_mode_ventilation = findViewById(R.id.cool_mode_ventilation);
-        cool_speed_low = findViewById(R.id.cool_speed_low);
-        cool_speed_middle = findViewById(R.id.cool_speed_middle);
-        cool_speed_heigth = findViewById(R.id.cool_speed_heigth);
+        cool_mode_dehumidif =findViewById(R.id.cool_mode_dehumidif);
+        cool_speed_minus =findViewById(R.id.cool_speed_minus);
+        cool_speed_add =findViewById(R.id.cool_speed_add);
+        cool_speed_value =findViewById(R.id.cool_speed_value);
 
         //485函数创建
         rS485Function =new RS485Function();
@@ -157,7 +152,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 设置按钮点击
+     * 历史/设置按钮点击
      */
     public void onOterViewClk(View view) {
         switch (view.getId()) {
@@ -197,19 +192,40 @@ public class MainActivity extends Activity {
                 break;
             case R.id.mode_smart:
                 DevStateValue.mode = Config.MODE_SMART;
+                DevStateValue.fanpower =true;
+                DevStateValue.cool_speed =8;
+                DevStateValue.cool_mode = Config.COOL_MODE_AUTO;
                 break;
             case R.id.mode_powerful:
                 DevStateValue.mode = Config.MODE_POWERFUL;
+                DevStateValue.fanpower =true;
+                DevStateValue.fanspeed =1;
+                DevStateValue.cool_speed =6;
+                DevStateValue.cool_mode = Config.COOL_MODE_AUTO;
                 break;
             case R.id.temp_set_add:
-                if(DevStateValue.mode == Config.MODE_HAND && DevStateValue.set_temp_hand <32) DevStateValue.set_temp_hand ++;
-                if(DevStateValue.mode == Config.MODE_SMART && DevStateValue.set_temp_smart <32) DevStateValue.set_temp_smart ++;
-                if(DevStateValue.mode == Config.MODE_POWERFUL && DevStateValue.set_temp_powerful <32) DevStateValue.set_temp_powerful ++;
+                if((DevStateValue.mode ==Config.MODE_HAND) && (DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF || DevStateValue.cool_mode == Config.COOL_MODE_VENTILATION))
+                    Tools.showToast(this,(DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF )?"空调除湿模式，温度不可调":"空调送风模式，温度不可调");
+                else {
+                    if (DevStateValue.mode == Config.MODE_HAND && DevStateValue.set_temp_hand < 32)
+                        DevStateValue.set_temp_hand++;
+                    if (DevStateValue.mode == Config.MODE_SMART && DevStateValue.set_temp_smart < 32)
+                        DevStateValue.set_temp_smart++;
+                    if (DevStateValue.mode == Config.MODE_POWERFUL && DevStateValue.set_temp_powerful < 32)
+                        DevStateValue.set_temp_powerful++;
+                }
                 break;
             case R.id.temp_set_minus:
-                if(DevStateValue.mode == Config.MODE_HAND && DevStateValue.set_temp_hand >16) DevStateValue.set_temp_hand --;
-                if(DevStateValue.mode == Config.MODE_SMART && DevStateValue.set_temp_smart >16) DevStateValue.set_temp_smart --;
-                if(DevStateValue.mode == Config.MODE_POWERFUL && DevStateValue.set_temp_powerful >16) DevStateValue.set_temp_powerful --;
+                if((DevStateValue.mode ==Config.MODE_HAND) && (DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF || DevStateValue.cool_mode == Config.COOL_MODE_VENTILATION))
+                    Tools.showToast(this,(DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF )?"空调除湿模式，温度不可调":"空调送风模式，温度不可调");
+                else {
+                    if (DevStateValue.mode == Config.MODE_HAND && DevStateValue.set_temp_hand > 16)
+                        DevStateValue.set_temp_hand--;
+                    if (DevStateValue.mode == Config.MODE_SMART && DevStateValue.set_temp_smart > 16)
+                        DevStateValue.set_temp_smart--;
+                    if (DevStateValue.mode == Config.MODE_POWERFUL && DevStateValue.set_temp_powerful > 16)
+                        DevStateValue.set_temp_powerful--;
+                }
                 break;
         }
         mHandler.sendEmptyMessage(Config.HANDEL_UPDATA_CONTROL_UI);
@@ -230,14 +246,16 @@ public class MainActivity extends Activity {
             return;
         }
 
+        //设备关闭时，只有开按键可以点击
+        if(!DevStateValue.fanpower && (view.getId()!=R.id.fan_power)){
+            Tools.showToast(this,"请先开启新风开关");
+            return;
+        }
+
         switch (view.getId()) {
-            case R.id.circulation_in:
-                DevStateValue.runloop = 1;
-                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_RUNLOOP);
-                break;
-            case R.id.circulation_out:
-                DevStateValue.runloop = 2;
-                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_RUNLOOP);
+            case R.id.fan_power:
+                DevStateValue.fanpower =DevStateValue.fanpower?false:true;
+                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_FANPOWER);
                 break;
             case R.id.auheat:
                 DevStateValue.heat = DevStateValue.heat?false:true;
@@ -278,30 +296,39 @@ public class MainActivity extends Activity {
         switch (view.getId()) {
 
             case R.id.cool_mode_refrigera:
-                DevStateValue.cool_mode =1;
+                DevStateValue.cool_mode =Config.COOL_MODE_REFRIGERA;
                 mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLMODE);
                 break;
             case R.id.cool_mode_heat:
-                DevStateValue.cool_mode =2;
+                DevStateValue.cool_mode =Config.COOL_MODE_HOST;
                 mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLMODE);
                 break;
             case R.id.cool_mode_ventilation:
-                DevStateValue.cool_mode =0;
+                DevStateValue.cool_mode =Config.COOL_MODE_VENTILATION;
                 mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLMODE);
                 break;
-            case R.id.cool_speed_low:
-                DevStateValue.cool_speed =1;
-                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLSPEED);
+            case R.id.cool_mode_dehumidif:
+                DevStateValue.cool_mode =Config.COOL_MODE_DEHUMIDIF;
+                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLMODE);
                 break;
-            case R.id.cool_speed_middle:
-                DevStateValue.cool_speed =4;
-                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLSPEED);
+            case R.id.cool_speed_minus:
+                if(DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF)
+                    Tools.showToast(this,"空调除湿模式，风速不可调");
+                else{
+                    if(DevStateValue.cool_speed ==8) DevStateValue.cool_speed =6;
+                    else if(DevStateValue.cool_speed >1) DevStateValue.cool_speed --;
+                    mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLSPEED);
+                }
                 break;
-            case R.id.cool_speed_heigth:
-                DevStateValue.cool_speed =7;
-                mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLSPEED);
+            case R.id.cool_speed_add:
+                if(DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF)
+                    Tools.showToast(this,"空调除湿模式，风速不可调");
+                else {
+                    if (DevStateValue.cool_speed == 6) DevStateValue.cool_speed = 8;
+                    else if (DevStateValue.cool_speed < 6) DevStateValue.cool_speed++;
+                    mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLSPEED);
+                }
                 break;
-
         }
         mHandler.sendEmptyMessage(Config.HANDEL_UPDATA_CONTROL_UI);
     }
@@ -321,7 +348,7 @@ public class MainActivity extends Activity {
                     rS485Function.send486DataControl(msg.what);
                     break;
                 case Config.HANDEL_SEND_CONTROL_POWER:
-                case Config.HANDEL_SEND_CONTROL_RUNLOOP:
+                case Config.HANDEL_SEND_CONTROL_FANPOWER:
                 case Config.HANDEL_SEND_CONTROL_HEAT:
                 case Config.HANDEL_SEND_CONTROL_FANSPEED:
                 case Config.HANDEL_SEND_CONTROL_COOLMODE:
@@ -336,7 +363,7 @@ public class MainActivity extends Activity {
                     updataSensorUI();
                     break;
                 case Config.HANDEL_UPDATA_MODERUN_UI:
-                    updataModeRunFunctionUI();
+                    updataSmartRunFunctionUI();
                     break;
                 case Config.HANDEL_MODE_RUN_RFUNCTION:
                     modeRunFunction();
@@ -361,40 +388,16 @@ public class MainActivity extends Activity {
             case  Config.MODE_HAND:
                 break;
 
-            case Config.MODE_SMART:
-                DevStateValue.runloop =1;
-                DevStateValue.fanspeed =1;
-                DevStateValue.cool_speed =4;
-                //逻辑：
-                //采集不到实际温度时，则切换为通风
-                //实际温度比设置温度高2度以上，则切换为制冷。
-                //设置温度比实际温度高2度以上，则切换为制热。
-                if(DevStateValue.hostCooltemp ==Config.NOTHING) DevStateValue.cool_mode = Config.COOL_MODE_VENTILATION;
-                else if((DevStateValue.hostCooltemp-DevStateValue.set_temp_powerful)>=2) DevStateValue.cool_mode = Config.COOL_MODE_REFRIGERA;
-                else if((DevStateValue.set_temp_powerful -DevStateValue.hostCooltemp)>=2) DevStateValue.cool_mode = Config.COOL_MODE_HOST;
-
-                mHandler.sendEmptyMessage(Config.HANDEL_UPDATA_MODERUN_UI);
+            case Config.MODE_POWERFUL:
                 break;
 
-            case Config.MODE_POWERFUL:
-                DevStateValue.runloop =1;
-
+            case Config.MODE_SMART:
                 if(DevStateValue.airGrade ==Config.AIR_GRADE_BAD)
                     DevStateValue.fanspeed =7;
                 if(DevStateValue.airGrade ==Config.AIR_GRADE_LIANG)
                     DevStateValue.fanspeed =4;
                 else
                     DevStateValue.fanspeed =1;
-
-                DevStateValue.cool_speed =7;
-                //逻辑：
-                //采集不到实际温度时，则切换为通风
-                //实际温度比设置温度高2度以上，则切换为制冷。
-                //设置温度比实际温度高2度以上，则切换为制热。
-                if(DevStateValue.hostCooltemp ==Config.NOTHING) DevStateValue.cool_mode = Config.COOL_MODE_VENTILATION;
-                else if((DevStateValue.hostCooltemp-DevStateValue.set_temp_powerful)>=2) DevStateValue.cool_mode = Config.COOL_MODE_REFRIGERA;
-                else if((DevStateValue.set_temp_powerful -DevStateValue.hostCooltemp)>=2) DevStateValue.cool_mode = Config.COOL_MODE_HOST;
-
                 mHandler.sendEmptyMessage(Config.HANDEL_UPDATA_MODERUN_UI);
                 break;
         }
@@ -424,60 +427,71 @@ public class MainActivity extends Activity {
                 mode_powerful.setImageResource(R.mipmap.mode_powerful_up);
             }
 
-            if(DevStateValue.runloop ==1){
-                circulation_in.setImageResource(R.mipmap.circulation_in_up);
-                circulation_out.setImageResource(R.mipmap.circulation_out_dn);
+            if(DevStateValue.fanpower){
+                fan_power.setImageResource(R.mipmap.kai_up);
+
+                if(DevStateValue.heat)  auheat.setImageResource(R.mipmap.auheat_up);
+                else  auheat.setImageResource(R.mipmap.auheat_dn);
+
+                if(DevStateValue.fanspeed==1){
+                    fanspeed_low.setImageResource(R.mipmap.fanspeed_low_up);
+                    fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
+                    fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
+                }else if(DevStateValue.fanspeed==4){
+                    fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
+                    fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_up);
+                    fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
+                }else{
+                    fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
+                    fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
+                    fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_up);
+                }
+
             }else{
-                circulation_in.setImageResource(R.mipmap.circulation_in_dn);
-                circulation_out.setImageResource(R.mipmap.circulation_out_up);
-            }
-
-            if(DevStateValue.heat)  auheat.setImageResource(R.mipmap.auheat_up);
-            else  auheat.setImageResource(R.mipmap.auheat_dn);
-
-            if(DevStateValue.fanspeed==1){
-                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_up);
+                fan_power.setImageResource(R.mipmap.guan_dn);
+                auheat.setImageResource(R.mipmap.auheat_dn);
+                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
                 fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
                 fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
-            }else if(DevStateValue.fanspeed==4){
-                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
-                fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_up);
-                fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
-            }else{
-                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
-                fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
-                fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_up);
             }
 
-            if(DevStateValue.cool_mode==1){
+            if(DevStateValue.cool_mode==Config.COOL_MODE_REFRIGERA){//制冷
                 cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_up);
                 cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
                 cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
-            }else if(DevStateValue.cool_mode==2){
+                cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_dn);
+            }else if(DevStateValue.cool_mode==Config.COOL_MODE_HOST){//制热
                 cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
                 cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_up);
                 cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
-            }else{
+                cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_dn);
+            }else if(DevStateValue.cool_mode==Config.COOL_MODE_VENTILATION){//通风
                 cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
                 cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
                 cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_up);
-            }
-
-            if(DevStateValue.cool_speed==1){
-                cool_speed_low.setImageResource(R.mipmap.cool_speed_low_up);
-                cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_dn);
-                cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_dn);
-            }else if(DevStateValue.cool_speed==4){
-                cool_speed_low.setImageResource(R.mipmap.cool_speed_low_dn);
-                cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_up);
-                cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_dn);
+                cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_dn);
+            }else if(DevStateValue.cool_mode==Config.COOL_MODE_DEHUMIDIF){//除湿
+                cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
+                cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
+                cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
+                cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_up);
+            }else if(DevStateValue.cool_mode==Config.COOL_MODE_AUTO){//自动
+                cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_up);
+                cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_up);
+                cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_up);
+                cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_dn);
             }else{
-                cool_speed_low.setImageResource(R.mipmap.cool_speed_low_dn);
-                cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_dn);
-                cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_up);
+                cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
+                cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
+                cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
+                cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_dn);
             }
+            if(DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF) cool_speed_value.setText("—");
+            else if(DevStateValue.cool_speed==8) cool_speed_value.setText("自动");
+            else cool_speed_value.setText(""+DevStateValue.cool_speed);
 
-            if(DevStateValue.mode ==Config.MODE_HAND)  set_temp.setText(""+DevStateValue.set_temp_hand);
+            if(DevStateValue.cool_mode == Config.COOL_MODE_DEHUMIDIF || DevStateValue.cool_mode == Config.COOL_MODE_VENTILATION)  set_temp.setText("—");
+            else if(DevStateValue.mode ==Config.MODE_HAND)  set_temp.setText(""+DevStateValue.set_temp_hand);
             else if(DevStateValue.mode ==Config.MODE_SMART) set_temp.setText(""+DevStateValue.set_temp_smart);
             else set_temp.setText(""+DevStateValue.set_temp_powerful);
 
@@ -490,8 +504,7 @@ public class MainActivity extends Activity {
             mode_smart.setImageResource(R.mipmap.mode_smart_dn);
             mode_powerful.setImageResource(R.mipmap.mode_powerful_dn);
 
-            circulation_in.setImageResource(R.mipmap.circulation_in_dn);
-            circulation_out.setImageResource(R.mipmap.circulation_out_dn);
+            fan_power.setImageResource(R.mipmap.guan_dn);
             auheat.setImageResource(R.mipmap.auheat_dn);
             fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
             fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
@@ -500,9 +513,8 @@ public class MainActivity extends Activity {
             cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
             cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
             cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
-            cool_speed_low.setImageResource(R.mipmap.cool_speed_low_dn);
-            cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_dn);
-            cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_dn);
+            cool_mode_dehumidif.setImageResource(R.mipmap.cool_mode_dehumidif_dn);
+            cool_speed_value.setText("—");
 
             set_temp.setText("—");
         }
@@ -512,69 +524,21 @@ public class MainActivity extends Activity {
     /**
      * 在模式逻辑时UI相关当UI更新
      */
-    private void updataModeRunFunctionUI(){
+    private void updataSmartRunFunctionUI(){
 
-        if(modeRun_runloop_last != DevStateValue.runloop) {
-            if (DevStateValue.runloop == 1) {
-                circulation_in.setImageResource(R.mipmap.circulation_in_up);
-                circulation_out.setImageResource(R.mipmap.circulation_out_dn);
-            } else {
-                circulation_in.setImageResource(R.mipmap.circulation_in_dn);
-                circulation_out.setImageResource(R.mipmap.circulation_out_up);
-            }
+        if (DevStateValue.fanspeed == 1) {
+            fanspeed_low.setImageResource(R.mipmap.fanspeed_low_up);
+            fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
+            fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
+        } else if (DevStateValue.fanspeed == 4) {
+            fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
+            fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_up);
+            fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
+        } else {
+            fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
+            fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
+            fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_up);
         }
-
-        if(modeRun_fanspeed_last != DevStateValue.fanspeed) {
-            if (DevStateValue.fanspeed == 1) {
-                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_up);
-                fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
-                fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
-            } else if (DevStateValue.fanspeed == 4) {
-                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
-                fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_up);
-                fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_dn);
-            } else {
-                fanspeed_low.setImageResource(R.mipmap.fanspeed_low_dn);
-                fanspeed_middle.setImageResource(R.mipmap.fanspeed_middle_dn);
-                fanspeed_heigth.setImageResource(R.mipmap.fanspeed_heigth_up);
-            }
-        }
-
-        if(modeRun_coolmode_last != DevStateValue.cool_mode) {
-            if (DevStateValue.cool_mode == 1) {
-                cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_up);
-                cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
-                cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
-            } else if (DevStateValue.cool_mode == 2) {
-                cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
-                cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_up);
-                cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_dn);
-            } else {
-                cool_mode_refrigera.setImageResource(R.mipmap.cool_mode_refrigera_dn);
-                cool_mode_heat.setImageResource(R.mipmap.cool_mode_heat_dn);
-                cool_mode_ventilation.setImageResource(R.mipmap.cool_mode_ventilation_up);
-            }
-        }
-
-        if(modeRun_coolspeed_last != DevStateValue.cool_speed) {
-            if (DevStateValue.cool_speed == 1) {
-                cool_speed_low.setImageResource(R.mipmap.cool_speed_low_up);
-                cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_dn);
-                cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_dn);
-            } else if (DevStateValue.cool_speed == 4) {
-                cool_speed_low.setImageResource(R.mipmap.cool_speed_low_dn);
-                cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_up);
-                cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_dn);
-            } else {
-                cool_speed_low.setImageResource(R.mipmap.cool_speed_low_dn);
-                cool_speed_middle.setImageResource(R.mipmap.cool_speed_middle_dn);
-                cool_speed_heigth.setImageResource(R.mipmap.cool_speed_heigth_up);
-            }
-        }
-        modeRun_runloop_last =DevStateValue.runloop;
-        modeRun_fanspeed_last =DevStateValue.fanspeed;
-        modeRun_coolmode_last =DevStateValue.cool_mode;
-        modeRun_coolspeed_last =DevStateValue.cool_speed;
     }
 
     /**

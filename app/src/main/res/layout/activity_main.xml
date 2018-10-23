@@ -275,14 +275,15 @@
         android:onClick="onControl_Mode_TempSet_Clk"
         android:scaleType="centerInside"
         android:src="@mipmap/mode_hand_up"
-        app:layout_constraintEnd_toEndOf="@+id/circulation_in"
-        app:layout_constraintStart_toStartOf="@+id/circulation_in"
+        app:layout_constraintEnd_toEndOf="@+id/fan_power"
+        app:layout_constraintStart_toStartOf="@+id/fan_power"
         app:layout_constraintTop_toBottomOf="@+id/guideline6" />
 
     <ImageButton
         android:id="@+id/mode_smart"
         android:layout_width="60dp"
         android:layout_height="80dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
@@ -290,8 +291,8 @@
         android:onClick="onControl_Mode_TempSet_Clk"
         android:scaleType="centerInside"
         android:src="@mipmap/mode_smart_up"
-        app:layout_constraintEnd_toEndOf="@+id/circulation_out"
-        app:layout_constraintStart_toStartOf="@+id/circulation_out"
+        app:layout_constraintEnd_toEndOf="@+id/fanspeed_middle"
+        app:layout_constraintStart_toStartOf="@+id/fanspeed_middle"
         app:layout_constraintTop_toBottomOf="@+id/guideline6" />
 
     <TextView
@@ -302,32 +303,16 @@
         android:textColor="@android:color/background_light"
         android:textSize="90sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/temp_set_add"
+        app:layout_constraintBottom_toBottomOf="@+id/temp_set_minus"
         app:layout_constraintEnd_toEndOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="@+id/guideline12"
-        app:layout_constraintTop_toTopOf="@+id/temp_set_add" />
-
-    <ImageButton
-        android:id="@+id/temp_set_add"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:adjustViewBounds="false"
-        android:background="#00000000"
-        android:cropToPadding="false"
-        android:onClick="onControl_Mode_TempSet_Clk"
-        android:scaleType="centerInside"
-        android:src="@mipmap/temp_add_up"
-        app:layout_constraintBottom_toBottomOf="@+id/guideline6"
-        app:layout_constraintEnd_toEndOf="@+id/cool_mode_refrigera"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/cool_mode_refrigera"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@+id/temp_set_minus" />
 
     <ImageButton
         android:id="@+id/temp_set_minus"
         android:layout_width="60dp"
         android:layout_height="80dp"
+        android:layout_marginEnd="100dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
         android:cropToPadding="false"
@@ -335,12 +320,28 @@
         android:scaleType="centerInside"
         android:src="@mipmap/temp_minus_up"
         app:layout_constraintBottom_toBottomOf="@+id/guideline6"
-        app:layout_constraintEnd_toEndOf="@+id/cool_mode_ventilation"
-        app:layout_constraintStart_toStartOf="@+id/cool_mode_ventilation"
-        app:layout_constraintTop_toTopOf="@+id/guideline6" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline12"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/circulation_in"
+        android:id="@+id/temp_set_add"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="100dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Mode_TempSet_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/temp_add_up"
+        app:layout_constraintBottom_toBottomOf="@+id/guideline6"
+        app:layout_constraintStart_toStartOf="@+id/guideline12"
+        app:layout_constraintTop_toTopOf="@+id/guideline6"
+        app:layout_constraintVertical_bias="0.506" />
+
+    <ImageButton
+        android:id="@+id/fan_power"
         android:layout_width="60dp"
         android:layout_height="80dp"
         android:layout_marginBottom="5dp"
@@ -349,25 +350,10 @@
         android:cropToPadding="false"
         android:onClick="onControl_Air_Clk"
         android:scaleType="centerInside"
-        android:src="@mipmap/circulation_in_up"
+        android:src="@mipmap/kai_up"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="@+id/fanspeed_low"
         app:layout_constraintStart_toStartOf="@+id/fanspeed_low" />
-
-    <ImageButton
-        android:id="@+id/circulation_out"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="5dp"
-        android:adjustViewBounds="false"
-        android:background="#00000000"
-        android:cropToPadding="false"
-        android:onClick="onControl_Air_Clk"
-        android:scaleType="centerInside"
-        android:src="@mipmap/circulation_out_up"
-        app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="@+id/fanspeed_middle"
-        app:layout_constraintStart_toStartOf="@+id/fanspeed_middle" />
 
     <ImageButton
         android:id="@+id/auheat"
@@ -431,9 +417,10 @@
 
     <ImageButton
         android:id="@+id/cool_mode_refrigera"
-        android:layout_width="60dp"
+        android:layout_width="59dp"
         android:layout_height="80dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginEnd="40dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
         android:cropToPadding="false"
@@ -441,14 +428,14 @@
         android:scaleType="centerInside"
         android:src="@mipmap/cool_mode_refrigera_up"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="@+id/cool_speed_low"
-        app:layout_constraintStart_toStartOf="@+id/cool_speed_low" />
+        app:layout_constraintEnd_toStartOf="@+id/cool_mode_heat" />
 
     <ImageButton
         android:id="@+id/cool_mode_heat"
         android:layout_width="60dp"
         android:layout_height="80dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginEnd="20dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
         android:cropToPadding="false"
@@ -456,14 +443,29 @@
         android:scaleType="centerInside"
         android:src="@mipmap/cool_mode_heat_up"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="@+id/guideline12"
-        app:layout_constraintStart_toStartOf="@+id/guideline12" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline12" />
+
+    <ImageButton
+        android:id="@+id/cool_mode_dehumidif"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="40dp"
+        android:adjustViewBounds="false"
+        android:background="#00000000"
+        android:cropToPadding="false"
+        android:onClick="onControl_Cool_Clk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/cool_mode_dehumidif_up"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintStart_toEndOf="@+id/cool_mode_ventilation" />
 
     <ImageButton
         android:id="@+id/cool_mode_ventilation"
         android:layout_width="60dp"
         android:layout_height="80dp"
         android:layout_marginBottom="5dp"
+        android:layout_marginStart="19dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
         android:cropToPadding="false"
@@ -471,53 +473,38 @@
         android:scaleType="centerInside"
         android:src="@mipmap/cool_mode_ventilation_up"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
-        app:layout_constraintEnd_toEndOf="@+id/cool_speed_heigth"
-        app:layout_constraintStart_toStartOf="@+id/cool_speed_heigth" />
+        app:layout_constraintStart_toEndOf="@+id/guideline12" />
 
     <ImageButton
-        android:id="@+id/cool_speed_low"
+        android:id="@+id/cool_speed_minus"
         android:layout_width="60dp"
         android:layout_height="80dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="5dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
         android:cropToPadding="false"
         android:onClick="onControl_Cool_Clk"
         android:scaleType="centerInside"
-        android:src="@mipmap/cool_speed_low_up"
+        android:src="@mipmap/temp_minus_up"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"
         app:layout_constraintTop_toBottomOf="@+id/guideline7" />
 
     <ImageButton
-        android:id="@+id/cool_speed_middle"
+        android:id="@+id/cool_speed_add"
         android:layout_width="60dp"
         android:layout_height="80dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
         android:adjustViewBounds="false"
         android:background="#00000000"
         android:cropToPadding="false"
         android:onClick="onControl_Cool_Clk"
         android:scaleType="centerInside"
-        android:src="@mipmap/cool_speed_middle_up"
-        app:layout_constraintEnd_toEndOf="@+id/cool_mode_heat"
-        app:layout_constraintStart_toStartOf="@+id/cool_mode_heat"
-        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
-
-    <ImageButton
-        android:id="@+id/cool_speed_heigth"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="5dp"
-        android:adjustViewBounds="false"
-        android:background="#00000000"
-        android:cropToPadding="false"
-        android:onClick="onControl_Cool_Clk"
-        android:scaleType="centerInside"
-        android:src="@mipmap/cool_speed_heigth_up"
-        app:layout_constraintStart_toStartOf="@+id/guideline12"
-        app:layout_constraintTop_toBottomOf="@+id/guideline7" />
+        android:src="@mipmap/temp_add_up"
+        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_value"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_dehumidif"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_dehumidif"
+        app:layout_constraintTop_toTopOf="@+id/cool_speed_value" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"
@@ -581,5 +568,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.28" />
+
+    <TextView
+        android:id="@+id/cool_speed_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="2"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_minus"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_ventilation"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_ventilation"
+        app:layout_constraintTop_toTopOf="@+id/cool_speed_minus" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="风速"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_minus"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_refrigera"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_refrigera"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
 </android.support.constraint.ConstraintLayout>

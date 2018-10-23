@@ -21,6 +21,7 @@ public class DevStateValue {
 
     public static boolean powerswitch = false;
 	public static int mode = 2;
+    public static boolean fanpower =false;
     public static int runloop =1;
     public static boolean heat =false;
     public static int fanspeed = 1;

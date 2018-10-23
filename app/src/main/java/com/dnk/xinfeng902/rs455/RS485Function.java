@@ -22,17 +22,13 @@ public class RS485Function implements RS485ConnectListent {
             case Config.HANDEL_SEND_SENSOR:
                 send_sensor();
                 break;
-            case Config.HANDEL_SEND_HOST_CONTROL:
-                send_host_controllState();
-                break;
             case Config.HANDEL_SEND_HOST_GETSTATE:
                 send_host_getHostState();
                 break;
+            case Config.HANDEL_SEND_HOST_CONTROL:
             case Config.HANDEL_SEND_CONTROL_POWER:
-                send_powerswitch();
-                break;
-            case Config.HANDEL_SEND_CONTROL_RUNLOOP:
-                send_runloop();
+            case Config.HANDEL_SEND_CONTROL_FANPOWER:
+                send_host_controllState();
                 break;
             case Config.HANDEL_SEND_CONTROL_HEAT:
                 send_heat();
@@ -145,11 +141,12 @@ public class RS485Function implements RS485ConnectListent {
      */
     private void send_host_controllState() {
         byte[] data = new byte[22];
+        byte[] dataTemp = new byte[2];
 
-        data[1] = (byte) ((DevStateValue.powerswitch) ? 0x01 : 0x00);
+        data[1] = (byte) ((DevStateValue.powerswitch) ? (DevStateValue.fanpower?0x01:0x00) : 0x00);
         data[3] = (byte) (DevStateValue.fanspeed);
         data[5] = (byte) (DevStateValue.mode);
-        data[7] = (byte) (DevStateValue.runloop);
+        data[7] = (byte) ((DevStateValue.fanpower) ? 0x02 : 0x00);
         data[9] = (byte) ((DevStateValue.heat) ? 0x01 : 0x00);
         data[11] = (byte) ((DevStateValue.powerswitch) ? 0x01 : 0x00);
         data[13] = (byte) (DevStateValue.cool_mode);
@@ -164,30 +161,27 @@ public class RS485Function implements RS485ConnectListent {
 
         data[18] = (byte) 0xA5;
         data[19] = (byte) 0x5A;
-        data[20] = (byte) 0xA5;
-        data[21] = (byte) 0x5A;
+
+        if (DevStateValue.temp == Config.NOTHING){
+            data[20] = (byte) 0xff;
+            data[21] = (byte) 0xff;
+        }else{
+            dataTemp = Tools.tempFloat2Int(DevStateValue.temp);
+            data[20] = dataTemp[0];
+            data[21] = dataTemp[1];
+        }
 
         sendModbusModel_W(0x01,1, data.length, data);
     }
     /**
-     * 设备主机空调温度轮询
+     * 设备主机状态查询
      */
     private void send_host_getHostState() {
-        sendModbusModel_R(0x01,9, 1);
+        sendModbusModel_R(0x01,501, 4);
     }
     /**
      * 单控制类指令
      */
-    private void send_powerswitch() {
-        byte[] data = new byte[2];
-        data[1] = (byte) ((DevStateValue.powerswitch) ? 0x01 : 0x00);
-        sendModbusModel_W(0x01,1, data.length, data);
-    }
-    private void send_runloop() {
-        byte[] data = new byte[2];
-        data[1] = (byte) (DevStateValue.runloop);
-        sendModbusModel_W(0x01,4, data.length, data);
-    }
     private void send_heat() {
         byte[] data = new byte[2];
         data[1] = (byte) ((DevStateValue.heat) ? 0x01 : 0x00);

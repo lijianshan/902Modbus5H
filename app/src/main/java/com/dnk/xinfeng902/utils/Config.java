@@ -2,7 +2,7 @@ package com.dnk.xinfeng902.utils;
 
 public class Config {
 
-    public static final String version =  "1.1.3";
+    public static final String version =  "1.1.4";
 
 
     public static final int NOTHING = 0xFFFF;
@@ -11,7 +11,7 @@ public class Config {
     public static final int HANDEL_SEND_HOST_CONTROL = 0x02;
     public static final int HANDEL_SEND_HOST_GETSTATE = 0x03;
     public static final int HANDEL_SEND_CONTROL_POWER = 0x04;
-    public static final int HANDEL_SEND_CONTROL_RUNLOOP = 0x05;
+    public static final int HANDEL_SEND_CONTROL_FANPOWER = 0x05;
     public static final int HANDEL_SEND_CONTROL_HEAT = 0x06;
     public static final int HANDEL_SEND_CONTROL_FANSPEED  = 0x07;
     public static final int HANDEL_SEND_CONTROL_COOLMODE  = 0x08;
@@ -29,10 +29,11 @@ public class Config {
     public static final int MODE_POWERFUL = 5;
 
 
-    public static final int COOL_MODE_REFRIGERA = 1;
-    public static final int COOL_MODE_HOST = 2;
-    public static final int COOL_MODE_VENTILATION = 0;
-
+    public static final int COOL_MODE_REFRIGERA = 2;   //制冷
+    public static final int COOL_MODE_HOST = 3;        //制热
+    public static final int COOL_MODE_VENTILATION = 1; //送风
+    public static final int COOL_MODE_DEHUMIDIF = 6;   //除湿
+    public static final int COOL_MODE_AUTO = 5;        //自动
 
     public static final int AIR_GRADE_GOOD =1;
     public static final int AIR_GRADE_LIANG =2;
