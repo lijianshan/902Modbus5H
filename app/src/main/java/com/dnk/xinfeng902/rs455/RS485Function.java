@@ -98,7 +98,7 @@ public class RS485Function implements RS485ConnectListent {
                         DevStateValue.temp = (float) ((data[12] & 0xff) + ((data[11] & 0xff) & 0x0f) * 0.1);
                         if (((data[11] & 0xff) & 0xf0) > 0) DevStateValue.temp *= -1;
                         if((DevStateValue.temp >17) && (DevStateValue.temp<25)) DevStateValue.tempGrade =Config.AIR_GRADE_GOOD;
-                        else if((DevStateValue.temp <11) && (DevStateValue.temp>28)) DevStateValue.tempGrade =Config.AIR_GRADE_BAD;
+                        else if((DevStateValue.temp <11) || (DevStateValue.temp>28)) DevStateValue.tempGrade =Config.AIR_GRADE_BAD;
                         else  DevStateValue.tempGrade =Config.AIR_GRADE_LIANG;
                     }
 
@@ -108,7 +108,7 @@ public class RS485Function implements RS485ConnectListent {
                     }else {
                         DevStateValue.humidity = (int) (((data[13] & 0xff) << 8) + data[14] & 0xff);
                         if((DevStateValue.humidity >39) && (DevStateValue.humidity<59)) DevStateValue.humidityGrade =Config.AIR_GRADE_GOOD;
-                        else if((DevStateValue.humidity <30) && (DevStateValue.humidity>80)) DevStateValue.humidityGrade =Config.AIR_GRADE_BAD;
+                        else if((DevStateValue.humidity <30) || (DevStateValue.humidity>80)) DevStateValue.humidityGrade =Config.AIR_GRADE_BAD;
                         else  DevStateValue.humidityGrade =Config.AIR_GRADE_LIANG;
                     }
 

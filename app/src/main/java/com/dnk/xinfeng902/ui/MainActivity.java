@@ -394,7 +394,7 @@ public class MainActivity extends Activity {
             case Config.MODE_SMART:
                 if(DevStateValue.airGrade ==Config.AIR_GRADE_BAD)
                     DevStateValue.fanspeed =7;
-                if(DevStateValue.airGrade ==Config.AIR_GRADE_LIANG)
+                else if(DevStateValue.airGrade ==Config.AIR_GRADE_LIANG)
                     DevStateValue.fanspeed =4;
                 else
                     DevStateValue.fanspeed =1;
