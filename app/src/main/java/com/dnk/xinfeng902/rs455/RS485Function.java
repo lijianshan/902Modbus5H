@@ -118,11 +118,24 @@ public class RS485Function implements RS485ConnectListent {
                     else if(value ==1) DevStateValue.airGrade =Config.AIR_GRADE_BAD;
                     else DevStateValue.airGrade =Config.AIR_GRADE_NOTHING;
                 }
-                receiverDataUpdataUI.receiver_updateUI(data);
+                receiverDataUpdataUI.receiver_updateUI(Config.HANDEL_SEND_SENSOR,data);
                 break;
 
             case Config.HANDEL_SEND_HOST_GETSTATE:
-                DevStateValue.hostCooltemp = (int) (((data[3] & 0xff) << 8) | data[4] & 0xff);
+
+                System.arraycopy(data, 3, DevStateValue.warningData, 0, 8);
+
+                //Log.i("故障报警状态：", Tools.changeHexString2(DevStateValue.warningData,0,8));
+
+                //for (int i = 0; i <8; i++) {
+                //    DevStateValue.warningData[i] = (byte) 0xff;
+                //}
+
+                DevStateValue.warningEnable =false;
+                for (int i = 0; i <8; i++) {
+                    if(DevStateValue.warningData[i] !=0 ) DevStateValue.warningEnable =true;
+                }
+                receiverDataUpdataUI.receiver_updateUI(Config.HANDEL_WARNING_STATE, data);
                 break;
 
             case Config.HANDEL_SEND_GET_VERSION:
@@ -202,12 +215,14 @@ public class RS485Function implements RS485ConnectListent {
         data[1] = (byte) (DevStateValue.cool_speed);
         sendModbusModel_W(0x01,8, data.length, data);
     }
+
     /**
      * 获取设备版本号
      */
     private void send_getversion(){
         sendModbusModel_R(0x01,101, 1);
     }
+
     /**
      * 数据写打包发送
      */
@@ -271,6 +286,6 @@ public class RS485Function implements RS485ConnectListent {
     }
 
     public interface receiverDataUpdateUIListener {
-        void receiver_updateUI(byte[] replyData);
+        void receiver_updateUI(int type, byte[] replyData);
     }
 }

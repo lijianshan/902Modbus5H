@@ -40,7 +40,6 @@
         android:logo="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
-
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
@@ -53,23 +52,16 @@
         </activity>
         <activity
             android:name=".ui.SetActivity"
-            android:screenOrientation="landscape">
-
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".ui.ListActivity"
-            android:label="@string/title_activity_set">
-        </activity>
+            android:label="@string/title_activity_set"></activity>
 
-        <service android:name="com.amap.api.location.APSService">
-
-        </service>
+        <service android:name="com.amap.api.location.APSService"></service>
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="bc56e46e8bbcadcb30911dd9cc6ef3c4">
-
-        </meta-data>
+            android:value="bc56e46e8bbcadcb30911dd9cc6ef3c4"></meta-data>
         <!-- 请填写你自己的- appKey -->
         <meta-data
             android:name="com.alibaba.app.appkey"
@@ -79,9 +71,11 @@
             android:name="com.alibaba.app.appsecret"
             android:value="4576299036c09adeba6332edfa74c424" />
 
-        <service android:name="com.dnk.v700.eService">
+        <service android:name="com.dnk.v700.eService"></service>
 
-        </service>
+        <activity
+            android:name=".ui.WarningActivity"
+            android:label="@string/title_activity_warning"></activity>
     </application>
 
 </manifest>

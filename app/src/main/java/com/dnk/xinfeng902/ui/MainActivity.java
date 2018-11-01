@@ -74,6 +74,10 @@ public class MainActivity extends Activity {
     ImageButton cool_speed_add;
     TextView    cool_speed_value;
 
+    ImageView warningView;
+    TextView warningInfoText;
+    TextView warningTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,14 +122,19 @@ public class MainActivity extends Activity {
         cool_speed_add =findViewById(R.id.cool_speed_add);
         cool_speed_value =findViewById(R.id.cool_speed_value);
 
+        warningView =findViewById(R.id.warning);
+        warningInfoText =findViewById(R.id.warningInfoText);
+        warningTitle =findViewById(R.id.warningTitle);
+
         //485函数创建
         rS485Function =new RS485Function();
 
         //接收到查询到数据时更新UI
         RS485Function.receiverDataUpdateUIListenerInit(new RS485Function.receiverDataUpdateUIListener() {
             @Override
-            public void receiver_updateUI(byte[] replyData) {
-                mHandler.sendEmptyMessage(Config.HANDEL_UPDATA_SENSOR_UI);
+            public void receiver_updateUI(int type, byte[] replyData) {
+                if(type == Config.HANDEL_SEND_SENSOR)           mHandler.sendEmptyMessage(Config.HANDEL_UPDATA_SENSOR_UI);
+                else if(type == Config.HANDEL_WARNING_STATE)    mHandler.sendEmptyMessage(Config.HANDEL_WARNING_STATE);
             }
         });
     }
@@ -152,7 +161,7 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * 历史/设置按钮点击
+     * 历史/设置/故障按钮点击
      */
     public void onOterViewClk(View view) {
         switch (view.getId()) {
@@ -164,6 +173,10 @@ public class MainActivity extends Activity {
                 rS485Function.send486DataControl(Config.HANDEL_SEND_GET_VERSION);
                 Intent intent2 = new Intent(this,SetActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.warning: //故障警告
+                Intent intent3 = new Intent(this,WarningActivity.class);
+                startActivity(intent3);
                 break;
         }
     }
@@ -370,6 +383,9 @@ public class MainActivity extends Activity {
                     break;
                 case Config.HANDEL_SAVE_DATABASE:
                     DataBaseUtil.add();
+                    break;
+                case Config.HANDEL_WARNING_STATE:
+                    updataWarningUI();
                     break;
             }
         }
@@ -593,6 +609,29 @@ public class MainActivity extends Activity {
         else sensor_humidity_image.setImageResource(R.mipmap.airgrade_nothing);
     }
 
+    /**
+     * 更新界面的报警UI
+     */
+    private void updataWarningUI(){
+
+        int len = 0;
+
+        if(DevStateValue.warningEnable) {
+            warningTitle.setVisibility(View.VISIBLE);
+            warningView.setVisibility(View.VISIBLE);
+            warningInfoText.setVisibility(View.VISIBLE);
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if ((DevStateValue.warningData[i] & (1 << j)) > 0) len = i * 8 + j;
+                }
+            }
+            warningInfoText.setText(Config.warninginfo[len]);
+        } else{
+            warningTitle.setVisibility(View.INVISIBLE);
+            warningView.setVisibility(View.INVISIBLE);
+            warningInfoText.setVisibility(View.INVISIBLE);
+        }
+    }
     /**
      * 系统时间启动与逻辑处理
      */

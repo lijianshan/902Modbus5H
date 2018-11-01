@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.dnk.xinfeng902.R;
-import com.dnk.xinfeng902.utils.Config;
 import com.dnk.xinfeng902.utils.DevStateValue;
+import com.dnk.xinfeng902.utils.Tools;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,7 +28,7 @@ public class SetActivity extends Activity{
         version =findViewById(R.id.about_versionname);
         version_device_host =findViewById(R.id.device_version);
 
-        version.setText(Config.version);
+        version.setText(Tools.getVersionName(this));
     }
 
     @Override

@@ -17,8 +17,6 @@ public class DevStateValue {
     public static int humidityGrade = Config.NOTHING;
     public static int airGrade = Config.NOTHING;
 
-    public static int hostCooltemp =Config.NOTHING;
-
     public static boolean powerswitch = false;
 	public static int mode = 2;
     public static boolean fanpower =false;
@@ -33,5 +31,8 @@ public class DevStateValue {
     public static int set_temp_powerful =26;
 
     public static String version_device ="";
+
+    public static boolean warningEnable =false;
+    public static byte warningData[] =new byte[8];
 
 }

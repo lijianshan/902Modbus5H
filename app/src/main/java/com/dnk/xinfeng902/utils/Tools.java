@@ -2,6 +2,8 @@ package com.dnk.xinfeng902.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -117,5 +119,19 @@ public class Tools {
         data[1] =(byte)zhengshu;
         data[0] |=(byte) (Math.round((temp -zhengshu)*10));
         return data;
+    }
+
+    /**
+     * 获取版本号
+     */
+    public static String getVersionName(Context context) {
+        PackageManager manager = context.getPackageManager();
+        String packageName = context.getPackageName();
+        try {
+            PackageInfo info = manager.getPackageInfo(packageName, 0);
+            return info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "1.0.0";
+        }
     }
 }

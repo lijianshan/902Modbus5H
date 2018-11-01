@@ -4,11 +4,11 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.dnk.xinfeng902"
+        applicationId "com.dnk.xin"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.0.2"
+        versionCode 1
+        versionName "1.1.6"
     }
     buildTypes {
         release {

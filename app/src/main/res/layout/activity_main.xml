@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/main_bottom">
@@ -506,6 +507,86 @@
         app:layout_constraintStart_toStartOf="@+id/cool_mode_dehumidif"
         app:layout_constraintTop_toTopOf="@+id/cool_speed_value" />
 
+    <TextView
+        android:id="@+id/cool_speed_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:text="2"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_minus"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_ventilation"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_ventilation"
+        app:layout_constraintTop_toTopOf="@+id/cool_speed_minus" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="风速"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_minus"
+        app:layout_constraintEnd_toEndOf="@+id/cool_mode_refrigera"
+        app:layout_constraintHorizontal_bias="0.714"
+        app:layout_constraintStart_toStartOf="@+id/cool_mode_refrigera"
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+
+    <ImageView
+        android:id="@+id/warning"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/darker_gray"
+        android:onClick="onOterViewClk"
+        android:scaleType="centerInside"
+        android:src="@mipmap/wanring"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/air_title" />
+
+    <TextView
+        android:id="@+id/warningInfoText"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:text="报警信息"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/warning"
+        app:layout_constraintEnd_toEndOf="@+id/warning"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/warningTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="故障报警，详情请点击查看..."
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/warning"
+        app:layout_constraintStart_toStartOf="@+id/warning"
+        app:layout_constraintTop_toTopOf="@+id/warning" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
@@ -549,13 +630,6 @@
         app:layout_constraintGuide_percent="0.50" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.61" />
-
-    <android.support.constraint.Guideline
         android:id="@+id/guideline7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -563,41 +637,10 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline3"
+        android:id="@+id/guideline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
-
-    <TextView
-        android:id="@+id/cool_speed_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="2"
-        android:textColor="@android:color/white"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_minus"
-        app:layout_constraintEnd_toEndOf="@+id/cool_mode_ventilation"
-        app:layout_constraintStart_toStartOf="@+id/cool_mode_ventilation"
-        app:layout_constraintTop_toTopOf="@+id/cool_speed_minus" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="风速"
-        android:textColor="@android:color/white"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/cool_speed_minus"
-        app:layout_constraintEnd_toEndOf="@+id/cool_mode_refrigera"
-        app:layout_constraintHorizontal_bias="0.714"
-        app:layout_constraintStart_toStartOf="@+id/cool_mode_refrigera"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+        app:layout_constraintGuide_percent="0.61" />
 
 </android.support.constraint.ConstraintLayout>
