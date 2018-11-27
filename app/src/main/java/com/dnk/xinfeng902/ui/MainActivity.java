@@ -202,6 +202,7 @@ public class MainActivity extends Activity {
                 break;
             case R.id.mode_hand:
                 DevStateValue.mode = Config.MODE_HAND;
+                DevStateValue.cool_mode = Config.COOL_MODE_VENTILATION;
                 break;
             case R.id.mode_smart:
                 DevStateValue.mode = Config.MODE_SMART;
@@ -310,10 +311,12 @@ public class MainActivity extends Activity {
 
             case R.id.cool_mode_refrigera:
                 DevStateValue.cool_mode =Config.COOL_MODE_REFRIGERA;
+                if(DevStateValue.cool_speed == 0) DevStateValue.cool_speed=1;
                 mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLMODE);
                 break;
             case R.id.cool_mode_heat:
                 DevStateValue.cool_mode =Config.COOL_MODE_HOST;
+                if(DevStateValue.cool_speed == 0) DevStateValue.cool_speed=1;
                 mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLMODE);
                 break;
             case R.id.cool_mode_ventilation:
@@ -329,7 +332,14 @@ public class MainActivity extends Activity {
                     Tools.showToast(this,"空调除湿模式，风速不可调");
                 else{
                     if(DevStateValue.cool_speed ==8) DevStateValue.cool_speed =6;
-                    else if(DevStateValue.cool_speed >1) DevStateValue.cool_speed --;
+                    else{
+
+                         if(DevStateValue.cool_mode == Config.COOL_MODE_VENTILATION) {
+                             if(DevStateValue.cool_speed >0) DevStateValue.cool_speed --;
+                         }else{
+                             if(DevStateValue.cool_speed >1) DevStateValue.cool_speed --;
+                         }
+                    }
                     mHandler.sendEmptyMessage(Config.HANDEL_SEND_CONTROL_COOLSPEED);
                 }
                 break;
